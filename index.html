@@ -358,8 +358,8 @@
         const leftInd = document.getElementById('leftInd');
         const rightInd = document.getElementById('rightInd');
         
-        // Deadzone (Ölü Bölge) için bir sabit belirleyelim (Hassasiyeti artırmak için 15 derece yaptık)
-        const DEADZONE = 15; 
+        // Deadzone (Ölü Bölge) için bir sabit belirleyelim - Daha geniş alan
+        const DEADZONE = 30;
 
         // Viraj şiddetine göre arka plan renkleri (RGB 0-255)
         const statusColors = {
@@ -404,14 +404,15 @@
                 rightInd.classList.add('active-right');
             }
 
-            // 5. Viraj Durumu Mantığı (Kademeli) - 450 DERECEYE UYARLANDI
+            // 5. Viraj Durumu Mantığı (Kademeli) - 450 DERECEYE UYARLANDI - DAHA GENİŞ ARALIKLARLA
             let turnType;
             if (absDeg == 0) turnType = "Düz gidiyor";
-            else if (absDeg < 100) turnType = "Hafif viraj";    // 100 dereceden sonra başlar (Daha az hassas)
-            else if (absDeg < 200) turnType = "Orta viraj";     // 200 dereceden sonra başlar
-            else if (absDeg < 300) turnType = "Keskin viraj";   // 300 dereceden sonra başlar
-            else if (absDeg < 400) turnType = "Çok keskin viraj";// 400 dereceden sonra başlar
-            else turnType = "U dönüşü yapıyor";                 // 400 dereceden sonrası (Maksimum 450)
+            else if (absDeg < 90) turnType = "Düz gidiyor";     // 0-90 derece: Düz yol
+            else if (absDeg < 180) turnType = "Hafif viraj";    // 90-180 derece: Hafif viraj
+            else if (absDeg < 270) turnType = "Orta viraj";     // 180-270 derece: Orta viraj
+            else if (absDeg < 360) turnType = "Keskin viraj";   // 270-360 derece: Keskin viraj
+            else if (absDeg < 420) turnType = "Çok keskin viraj";// 360-420 derece: Çok keskin viraj
+            else turnType = "U dönüşü yapıyor";                 // 420+ derece: U dönüşü
 
             // 6. Sonuçları Ekrana Yazdır
             valDegTxt.innerText = currentAngle + "°";
